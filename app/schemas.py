@@ -9,11 +9,11 @@ class AESRequest(BaseModel):
     mode: AESMode
     plaintext: Optional[str] = Field(None, description="Plaintext to be encrypted (required for encryption)")
     ciphertext: Optional[str] = Field(None, description="Ciphertext to be decrypted (required for decryption)")
-    key_b64: str = Field(None, min_length=16, max_length=32, description="Base64-encoded encryption key (16, 24, or 32 bytes)")
-    key_size_bits: int = Field(256, description="Key size in bits: 128, 192, or 256")
-    iv_b64: Optional[str] = Field(None, min_length=16, max_length=16, description="Base64-encoded initialization vector (16 bytes), required for some modes")
-    nonce_b64: Optional[str] = Field(None, min_length=16, max_length=16, description="Base64-encoded nonce (16 bytes), required for CTR and GCM modes")
-    tag_b64: Optional[str] = Field(None, min_length=16, max_length=16, description="Base64-encoded authentication tag (16 bytes), required for GCM decryption")
+    key_b64: Optional[str] = Field(None, description="Base64-encoded encryption key (16, 24, or 32 bytes)")
+    key_size_bits: Optional[int] = Field(256, description="Key size in bits: 128, 192, or 256")
+    iv_b64: Optional[str] = Field(None, description="Base64-encoded initialization vector (16 bytes), required for some modes")
+    nonce_b64: Optional[str] = Field(None, description="Base64-encoded nonce (16 bytes), required for CTR and GCM modes")
+    tag_b64: Optional[str] = Field(None, description="Base64-encoded authentication tag (16 bytes), required for GCM decryption")
 
 class AESResponse(BaseModel):
     mode: AESMode

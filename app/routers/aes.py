@@ -1,18 +1,49 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas import AESRequest, AESResponse
+from app.crypto.aes_service import encrypt_ecb, decrypt_ecb
 
 router = APIRouter()
 
-@router.post("", response_model=AESResponse)
+@router.post("", response_model = AESResponse)
 async def aes_operation(request: AESRequest):
-    if request.action == "encrypt" and not request.plaintext:
-        raise HTTPException(status_code=400, detail="Plaintext is required for encryption")
-    if request.action == "decrypt" and not request.ciphertext:
-        raise HTTPException(status_code=400, detail="Ciphertext is required for decryption")
-    
-    return AESResponse(
-        mode=request.mode,
-        action=request.action,
-        ciphertext="dummy_ciphertext" if request.action == "encrypt" else None,
-        plaintext="dummy_plaintext" if request.action == "decrypt" else None,
-    )
+    if request.mode not in ['ECB', 'CBC', 'CFB', 'OFB', 'CTR', 'GCM']:
+        raise HTTPException(status_code=400, detail="Unsupported mode")
+    if request.action not in ['encrypt', 'decrypt']:
+        raise HTTPException(status_code=400, detail="Unsupported action")
+    if request.mode == "ECB":
+        if request.action == "encrypt":
+            pass
+        else:
+            pass
+    elif request.mode == "CBC":
+        if request.action == "encrypt":
+            pass
+        else:
+            pass
+    elif request.mode == "CFB":
+        if request.action == "encrypt":
+            pass
+        else:
+            pass 
+    elif request.mode == "OFB":
+        if request.action == "encrypt":
+            pass
+        else:
+            pass 
+    elif request.mode == "CTR":
+        if request.action == "encrypt":
+            pass
+        else:
+            pass 
+    elif request.mode == "GCM":
+        if request.action == "encrypt":
+            pass
+        else:
+            pass 
+    else:
+        return AESResponse(
+            mode=request.mode,
+            action=request.action,
+            ciphertext="dummy_ciphertext" if request.action == "encrypt" else None,
+            plaintext="dummy_plaintext" if request.action == "decrypt" else None,
+        )
