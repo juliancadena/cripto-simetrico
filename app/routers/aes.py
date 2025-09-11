@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas import AESRequest, AESResponse
-from app.crypto.aes_service import encrypt_ecb, decrypt_ecb
 
 router = APIRouter()
 
