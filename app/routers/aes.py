@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas import AESRequest, AESResponse
-from app.crypto.aes_service import encrypt_ecb, decrypt_ecb
+from app.crypto.aes_service import encrypt_ecb, decrypt_ecb, encrypt_cbc, encrypt_cfb, encrypt_ctr, encrypt_ofb, encrypt_gcm
 
 router = APIRouter()
 
@@ -30,27 +30,63 @@ async def aes_operation(request: AESRequest):
             )
     elif request.mode == "CBC":
         if request.action == "encrypt":
-            pass
+            ct_b64, key_b64, iv_b64 = encrypt_cbc(request.plaintext, request.key_b64, request.iv_b64, request.key_size_bits)
+            return AESResponse(
+                mode= request.mode,
+                action= request.action,
+                ciphertext=ct_b64,
+                key_b64=key_b64,
+                iv_b64=iv_b64
+            )
         else:
             pass
     elif request.mode == "CFB":
         if request.action == "encrypt":
-            pass
+            ct_b64, key_b64, iv_b64 = encrypt_cfb(request.plaintext, request.key_b64, request.iv_b64, request.key_size_bits)
+            return AESResponse(
+                mode= request.mode,
+                action= request.action,
+                ciphertext=ct_b64,
+                key_b64=key_b64,
+                iv_b64=iv_b64
+            )
         else:
             pass 
     elif request.mode == "OFB":
         if request.action == "encrypt":
-            pass
+            ct_b64, key_b64, iv_b64 = encrypt_ofb(request.plaintext, request.key_b64, request.iv_b64, request.key_size_bits)
+            return AESResponse(
+                mode= request.mode,
+                action= request.action,
+                ciphertext=ct_b64,
+                key_b64=key_b64,
+                iv_b64=iv_b64
+            )
         else:
             pass 
     elif request.mode == "CTR":
         if request.action == "encrypt":
-            pass
+            ct_b64, key_b64, nonce_b64 = encrypt_ctr(request.plaintext, request.key_b64, request.nonce_b64, request.key_size_bits)
+            return AESResponse(
+                mode=request.mode,
+                action=request.action,
+                ciphertext= ct_b64,
+                key_b64=key_b64,
+                nonce_b64=nonce_b64
+            )
         else:
             pass 
     elif request.mode == "GCM":
         if request.action == "encrypt":
-            pass
+            ct_b64, key_b64, nonce_b64, tag_b64 = encrypt_gcm(request.plaintext, request.key_b64, request.nonce_b64, request.key_size_bits)
+            return AESResponse(
+                mode=request.mode,
+                action=request.action,
+                ciphertext= ct_b64,
+                key_b64=key_b64,
+                nonce_b64=nonce_b64,
+                tag_b64=tag_b64
+            )
         else:
             pass 
     else:
